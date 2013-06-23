@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset=utf-8 />
+  <title>JLPT Voca</title>
+
+  <style>
+  body, table, tr, td, div { margin: 0; padding: 0; border-width: 0; }
+
+  body { overflow: hidden; }
+
+  #layout
+  {
+    position: absolute;
+    left:0; top:0;
+    width: 100%; height: 100%;
+  }
+
+  #display
+  {
+    position: absolute; right: 20px; top: 145px;
+    /*width: 100%;*/ height: 150px;
+    font-size: 110px;
+    text-align: right;
+    z-index:99;
+    /* background-color: white; */
+  }
+
+  #dictionary
+  {
+    position: absolute; left: 0; top: -35px;
+    width: 100%; height: 100%;
+    text-align: center;
+  }
+
+  #remocon
+  {
+    position: absolute; right: 20px; top: 295px;
+    text-align: right;
+  }
+  #l, #r { width: 50px; height: 50px; }
+
+  </style>
+
+  <script type="text/javascript" src="data/kanji.js"></script>
+  <script type="text/javascript" src="kanji-l.js"></script>
+  <script type="text/javascript">
+    function init ()
+    {
+      window.app = App ();
+      window.app.init ();
+    }
+  </script>
+
+</head>
+<body onload="init()">
+
+<div id="display">asdf</div>
+<iframe id="dictionary" src="http://m.jpdic.naver.com/"></iframe></td></tr>
+
+<div id="remocon">
+  <input type="button" id="l" value="←" />
+  <input type="text"   id="n"   size ="4" />
+  <input type="button" id="r"   value="→" />
+</div>
+</table>
+
+</body>
+</html>
