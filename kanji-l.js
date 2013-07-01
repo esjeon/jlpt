@@ -27,18 +27,18 @@ function App ()
       updateIndex: function (idx) { this.display.value = ""+idx; },
       init: function ()
         {
-	  this.prevBtn.onclick = function () { self.prev (); };
+          this.prevBtn.onclick = function () { self.prev (); };
 
-	  this.nextBtn.onclick = function ()
-	    {
-	      var v;
+          this.nextBtn.onclick = function ()
+            {
+              var v;
 
-	      v = parseInt (self.remocon.display.value);
+              v = parseInt (self.remocon.display.value);
 
-	      if (v == self.idx) self.next ();
-	      else self.go (v);
-	    };
-	}
+              if (v == self.idx) self.next ();
+              else self.go (v);
+            };
+        }
     };
 
 
@@ -46,42 +46,14 @@ function App ()
   self.idx = -1;
 
 
-  self.initLevel = function ()
+
+  self.setLevel = function (lvl)
     {
-      var bullets = ["①","②","③","④","⑤"];
-      var tmp = "";
-      for(i = 0; i < 5; i ++) {
-        tmp += bullets[i];
-        tmp += window.Kanji[""+(i+1)];
-      }
-      self.list = tmp.split('');
-
-      //tmp = document.getElementById ('kanji');
-      //self.list = tmp.split ('');
-
-      //self.idx = 0;
-      //self.display.element.onclick = function () { self.next (); };
+      self.list = window.Kanji[lvl];
+      self.idx = 0;
+      self.display.element.onclick = function () { self.next (); };
       self.go (1);
     };
-
-//  self.setLevel = function (lvl)
-//    {
-//      var i,tmp;
-//
-//      tmp = document.getElementById ('word'+lvl);
-//      self.list = tmp.innerHTML.split ('@');
-//      self.idx = 0;
-//      self.display.element.onclick = function () { self.next (); };
-//
-//      for (i in self.list)
-//	{
-//	  tmp = self.list[i].split('_');
-//	  if (tmp[0].length == 0)
-//	    self.list[i] = tmp[1];
-//	  else
-//	    self.list[i] = tmp[0];
-//	}
-//    };
 
 
   self.prev = function ()
@@ -98,13 +70,13 @@ function App ()
       self.idx ++;
       if (self.idx == self.list.length)
         {
-	  alert ("Finished");
+          alert ("Finished");
 
-	  self.idx = -1;
-	  self.list = [];
-	  self.showLevels ();
-	  return;
-	}
+          self.idx = -1;
+          self.list = [];
+          self.showLevels ();
+          return;
+        }
       self.display.showText (self.list[self.idx - 1]);
       self.remocon.updateIndex (self.idx);
       self.display.element.onclick = function () { self.showAnswer (); };
@@ -125,29 +97,28 @@ function App ()
 
 
 
-//  self.showLevels = function ()
-//    {
-//      var i, el, nel;
-//
-//      el = self.display.element;
-//
-//      self.display.clear ();
-//      for (i=1;i<=5;i++)
-//        {
-//	  nel = document.createElement('input');
-//	  nel.type = "button";
-//	  nel.value = "" + i;
-//	  nel.style.height = "80px";
-//	  nel.style.width  = "50px";
-//	  nel.onclick = function () { self.setLevel (this.value); };
-//	  el.appendChild (nel);
-//	}
-//    };
+  self.showLevels = function ()
+    {
+      var i, el, nel;
+
+      el = self.display.element;
+
+      self.display.clear ();
+      for (i=1;i<=5;i++)
+        {
+          nel = document.createElement('input');
+          nel.type = "button";
+          nel.value = "" + i;
+          nel.style.height = "80px";
+          nel.style.width  = "50px";
+          nel.onclick = function () { self.setLevel (this.value); };
+          el.appendChild (nel);
+        }
+    };
 
   self.init = function ()
     {
-//      self.showLevels ();
-      self.initLevel ();
+      self.showLevels ();
       self.remocon.init ();
     };
 
