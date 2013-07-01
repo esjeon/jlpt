@@ -27,18 +27,18 @@ function App ()
       updateIndex: function (idx) { this.display.value = ""+idx; },
       init: function ()
         {
-	  this.prevBtn.onclick = function () { self.prev (); };
+          this.prevBtn.onclick = function () { self.prev (); };
 
-	  this.nextBtn.onclick = function ()
-	    {
-	      var v;
+          this.nextBtn.onclick = function ()
+            {
+              var v;
 
-	      v = parseInt (self.remocon.display.value);
+              v = parseInt (self.remocon.display.value);
 
-	      if (v == self.idx) self.next ();
-	      else self.go (v);
-	    };
-	}
+              if (v == self.idx) self.next ();
+              else self.go (v);
+            };
+        }
     };
 
 
@@ -49,22 +49,20 @@ function App ()
 
   self.setLevel = function (lvl)
     {
-      var i,tmp;
-
-      //tmp = document.getElementById ('word'+lvl);
-      //self.list = tmp.innerHTML.split ('@');
       self.list = window.Voca[lvl]
       self.idx = 0;
       self.display.element.onclick = function () { self.next (); };
 
-      for (i in self.list)
+      for (var i in self.list)
       {
-        tmp = self.list[i].split('_');
+        var tmp = self.list[i].split('_');
         if (tmp[0].length == 0)
           self.list[i] = tmp[1];
         else
           self.list[i] = tmp[0];
       }
+
+      self.go (1);
     };
 
 

@@ -16,7 +16,7 @@
 <body>
   <table id="layout">
     <tr>
-      <td><div id="disp" onclick="doNextAction();">?</div></td>
+      <td><div id="disp" onclick="nextAction();">?</div></td>
       <td><iframe id="dict" src="about:blank"></iframe></td>
     </tr>
     <tr>
@@ -26,23 +26,16 @@
         3<input type="checkbox" id="lvl3" value="3" />
         2<input type="checkbox" id="lvl2" value="2" />
         1<input type="checkbox" id="lvl1" value="1" />
-	<input type="button" value="선택" onclick="updateKanjiList();" />
+	<input type="button" value="선택" onclick="updateList();" />
       </td>
     </tr>
   </table>
   <script type="text/javascript">
-    var app = new JLPTKanjiStudy ();
+    var app = new JLPTStudy ();
     app.init ();
 
-    function doNextAction ()
-      {
-	app.nextAction ();
-      }
-
-    function updateKanjiList ()
-      {
-        app.updateKanjiList ();
-      }
+    function updateList () { app.updateList (); }
+    function nextAction () { app.nextAction (); }
   </script>
 </body>
 </html>

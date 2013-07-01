@@ -1,9 +1,7 @@
 ﻿
-function JLPTKanjiStudy ()
+function JLPTStudy ()
 {
-  self = {};
-
-  self.AllKanji = window.Kanji;
+  var self = {};
 
   /* elements */
 
@@ -26,74 +24,70 @@ function JLPTKanjiStudy ()
   self.checkboxes =
     (function ()
       {
-        var ids = ['lvl1', 'lvl2', 'lvl3', 'lvl4', 'lvl5'];
-        var els = {};
-        for (i in ids)
-	  els[i] = document.getElementById (ids[i]);
-	return els;
+        var i, els = {};
+        for (i = 1; i <= 5; i++)
+          els[i] = document.getElementById ('lvl'+i);
+        return els;
       }
     ) ();
       
 
   /* state */
 
-  self.kanji = {};
-  self.visit = {}; /* NOTE: always check "visit" */
-  self.kanji_left = 0;
-  self.nextAction = function () { alert ("Error!"); };
+  self.items = null;
+  self.history = null;
+  self.current = null;
 
+  self.nextAction = function () { alert ("Error!"); };
 
   /* operations */
 
-  self.updateKanjiList = function ()
+  self.updateList = function ()
     {
-      newlist = "";
+      var str = "";
       for (i in self.checkboxes)
       {
         if (self.checkboxes[i].checked)
-	  newlist += self.AllKanji[self.checkboxes[i].value];
+          str += window.Kanji[self.checkboxes[i].value];
       }
       
-      self.kanji = newlist;
-      self.visit = {};
-      self.kanji_left = newlist.length;
+      self.items = str.split('');
+      self.history = Array();
 
-      self.nextKanji ();
+      self.nextItem ();
     };
 
-  self.nextKanji = function ()
+  self.nextItem = function ()
     {
-      var i, c;
+      if (self.items.length == 0) {
+        self.display.setText('끝');
+        self.dictionary.hide ();
+        self.nextAction = function () {};
+        return;
+      }
 
-      if (self.kanji_left == 0)
-	{
-	  self.display.setText ("끝");
-	  self.dictionary.hide ();
-	  self.nextAction = function () {};
-	  return;
-	}
+      /* choose one */
+      var i = Math.floor (Math.random () * self.items.length);
+      self.current = self.items[i];
 
-      do
-      {
-	i = Math.floor (Math.random () * self.kanji.length);
-      } while (self.visit[i]);
-      self.visit[i] = true;
+      /* append to history & remove it from list */
+      self.history.push (self.current);
+      self.items.splice (i,1);
 
-      c = self.kanji[i];
-      self.kanji_left --;
+      /* show it & load dictionary */
+      txt = self.current;
+      self.display.setText (txt);
+      self.dictionary.lookup (txt);
 
-      self.display.setText (c);
+      self.nextAction = self.showAnswer;
 
       self.dictionary.hide ();
-      self.dictionary.lookup (c);
-
-      self.nextAction = self.showDictionary;
     };
 
-  self.showDictionary = function ()
+  self.showAnswer = function ()
     {
       self.dictionary.show ();
-      self.nextAction = self.nextKanji;
+      self.nextAction = self.nextItem;
     };
 
   self.init = function ()

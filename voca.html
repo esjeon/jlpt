@@ -9,11 +9,6 @@
   #disp { width: 400px; position: static;
           text-align: center; font-size: 100px; font-weight: bold; }
   #dict { width: 400px; height: 500px; border: 0}
-
-  #word1,#word2,#word3,#word4,#word5 
-    {
-      display: none;
-    }
 </style>
 <script type="text/javascript" src="data/voca.js"></script>
 <script type="text/javascript" src="voca.js"></script>
@@ -21,8 +16,8 @@
 <body>
   <table id="layout">
     <tr>
-      <td><div id="disp" onclick="nextWord();">?</div></td>
-      <td onclick="showAnswer()"><iframe id="dict" src="about:blank"></iframe></td>
+      <td><div id="disp" onclick="nextAction();">?</div></td>
+      <td><iframe id="dict" src="about:blank"></iframe></td>
     </tr>
     <tr>
       <td><b>Level:</b>&nbsp;
@@ -36,13 +31,11 @@
     </tr>
   </table>
   <script type="text/javascript">
-    var App = new JLPTVocaStudy ();
-    App.init ();
+    var app = new JLPTStudy ();
+    app.init ();
 
-    function updateList () { App.updateWordList (); }
-    function nextAction () { App.nextAction (); }
-    function nextWord   () { App.nextWord (); }
-    function showAnswer	() { App.showAnswer (); }
+    function updateList () { app.updateList (); }
+    function nextAction () { app.nextAction (); }
   </script>
 </body>
 </html>
