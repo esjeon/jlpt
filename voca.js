@@ -1,14 +1,5 @@
 ﻿
-if(!Array.prototype.last)
-{
-  Array.prototype.last = function()
-    {
-      return this[this.length - 1];
-    };
-}
-
-
-function JLPTVocaStudy ()
+function JLPTStudy ()
 {
   var self = {};
 
@@ -33,9 +24,8 @@ function JLPTVocaStudy ()
   self.checkboxes =
     (function ()
       {
-        var i;
-        var els = {};
-        for (i=1; i<=5; i++)
+        var i, els = {};
+        for (i = 1; i <= 5; i++)
           els[i] = document.getElementById ('lvl'+i);
         return els;
       }
@@ -44,56 +34,59 @@ function JLPTVocaStudy ()
 
   /* state */
 
-  self.words = null;
+  self.items = null;
   self.history = null;
   self.current = null;
 
-  self.nextAction = function () { };
+  self.nextAction = function () { alert ("Error!"); };
 
   /* operations */
 
-  self.updateWordList = function ()
+  self.updateList = function ()
     {
-      words = [];
-      for (i in self.checkboxes)
+      var words = [];
+      for (var i in self.checkboxes)
       {
         if (self.checkboxes[i].checked)
           words = words.concat(window.Voca[i])
       }
       
-      self.words = words
+      self.items = words;
       self.history = Array();
 
-      self.nextWord ();
+      self.nextItem ();
     };
 
-  self.nextWord = function ()
+  self.nextItem = function ()
     {
-      var i;
-
-      /* hide dictionary */
-      self.dictionary.hide ();
+      if (self.items.length == 0) {
+        self.display.setText('끝');
+        self.dictionary.hide ();
+        self.nextAction = function () {};
+        return;
+      }
 
       /* choose one */
-      i = Math.floor (Math.random () * self.words.length);
-      self.current = self.words[i].split ("_");
+      var i = Math.floor (Math.random () * self.items.length);
+      self.current = self.items[i].split ("_");
 
       /* append to history & remove it from list */
       self.history.push (self.current);
-      self.words.splice (i,1);
+      self.items.splice (i,1);
 
       /* show it & load dictionary */
       txt = self.current[0];
       if (txt == "") txt = self.current[1];
       self.display.setText (txt);
-//      self.dictionary.lookup (txt);
+      self.dictionary.lookup (txt);
 
       self.nextAction = self.showAnswer;
+
+      self.dictionary.hide ();
     };
 
   self.showAnswer = function ()
     {
-      self.dictionary.lookup (self.display.element.innerHTML);
       if (self.current[0] != "")
       {
         self.display.setText (self.current[0] + 
@@ -101,8 +94,7 @@ function JLPTVocaStudy ()
             self.current[1] + "</p>");
       }
       self.dictionary.show ();
-
-      self.nextAction = self.nextWord;
+      self.nextAction = self.nextItem;
     };
 
   self.init = function ()
